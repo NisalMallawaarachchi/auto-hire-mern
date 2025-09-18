@@ -1,5 +1,3 @@
-// 36:38 n nawathunee ethana idan balanna GreatStack eke video eka
-
 import { useState } from "react";
 import { assets, menuLinks } from "../assets/assets";
 import { Link, useLocation, useNavigate } from "react-router-dom";
