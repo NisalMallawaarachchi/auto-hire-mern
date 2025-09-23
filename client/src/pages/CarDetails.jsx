@@ -7,6 +7,12 @@ const CarDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
+  const currency = import.meta.env.VITE_CURRENCY;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    alert("Booking functionality is not implemented yet.");
+  };
 
   useEffect(() => {
     const foundCar = dummyCarData.find((car) => car._id === id);
@@ -23,7 +29,7 @@ const CarDetails = () => {
         Back to all cars
       </button>
 
-      <div className="grid grid-clos-1 lg:grid-cols-3 gap-8 lg:gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
         {/* Left: Car Image and Details Section */}
         <div className="lg:col-span-2">
           <img
@@ -108,8 +114,67 @@ const CarDetails = () => {
           </div>
         </div>
 
-        {/* Right: Booking From */}
-        <form action=""></form>
+        {/* Right: Booking Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="shadow-xl h-max sticky top-20 rounded-2xl p-6 md:p-8 space-y-6 bg-white border border-gray-100"
+        >
+          {/* Price Section */}
+          <div className="flex items-end justify-between">
+            <p className="text-3xl font-bold text-gray-800">
+              {currency} {car.pricePerDay}
+            </p>
+            <span className="text-sm text-gray-500">Per day</span>
+          </div>
+
+          <hr className="border-gray-200" />
+
+          {/* Pickup Date */}
+          <div className="flex flex-col space-y-2">
+            <label
+              htmlFor="pickup-date"
+              className="text-sm font-medium text-gray-600"
+            >
+              Pickup Date
+            </label>
+            <input
+              id="pickup-date"
+              type="date"
+              className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              required
+              min={new Date().toISOString().split("T")[0]}
+            />
+          </div>
+
+          {/* Return Date */}
+          <div className="flex flex-col space-y-2">
+            <label
+              htmlFor="return-date"
+              className="text-sm font-medium text-gray-600"
+            >
+              Return Date
+            </label>
+            <input
+              id="return-date"
+              type="date"
+              className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              required
+              min={new Date().toISOString().split("T")[0]}
+            />
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 hover:shadow-md transition"
+          >
+            Book Now
+          </button>
+
+          <p className="text-center text-sm">
+            No credit card required to reserve
+          </p>
+        </form>
       </div>
     </div>
   ) : (
