@@ -1,43 +1,46 @@
-import { Route, Routes, useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar.jsx";
-import Home from "./pages/Home.jsx";
-import Cars from "./pages/Cars.jsx";
-import CarDetails from "./pages/CarDetails.jsx";
-import MyBookings from "./pages/MyBookings.jsx";
-import { useState } from "react";
-import Footer from "./components/Footer.jsx";
-import Layout from "./pages/owner/Layout.jsx";
-import Dashboard from "./pages/owner/Dashboard.jsx";
-import AddCar from "./pages/owner/AddCar.jsx";
-import ManageBookings from "./pages/owner/ManageBookings.jsx";
+// Layout.jsx - Debug version with console logs
+import Sidebar from "./components/owner/Sidebar.jsx";
+import NavBarOwner from "./components/owner/NavBarOwner.jsx";
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
-export default function App() {
-  const [ShowLogin, setShowLogin] = useState(false);
-  const isOwnerPath = useLocation().pathname.startsWith("/owner");
+const Layout = () => {
+  const location = useLocation();
+  
+  // Debug: Log when Layout renders and current path
+  useEffect(() => {
+    console.log("Layout component rendered, current path:", location.pathname);
+  }, [location.pathname]);
 
   return (
-    <>
-      {!isOwnerPath && <Navbar setShowLogin={setShowLogin} />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cars" element={<Cars />} />
-        <Route
-          path="/car-details/:id"
-          element={
-            <CarDetails ShowLogin={ShowLogin} setShowLogin={setShowLogin} />
-          }
-        />
-        <Route path="/my-bookings" element={<MyBookings />} />
+    <div className="min-h-screen bg-gray-50">
+      {/* Fixed Navbar */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <NavBarOwner />
+      </div>
 
-        <Route path="/owner" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="add-car" element={<AddCar />} />
-          <Route path="manage-bookings" element={<ManageBookings />} />
-        </Route>
+      {/* Main Layout Container */}
+      <div className="flex pt-16">
+        {/* Fixed Sidebar */}
+        <div className="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 overflow-y-auto z-40">
+          <Sidebar />
+        </div>
 
-      </Routes>
-
-      {!isOwnerPath && <Footer />}
-    </>
+        {/* Main Content Area */}
+        <div className="flex-1 ml-64 min-h-screen">
+          <main className="p-6">
+            {/* Debug info */}
+            <div className="mb-4 p-2 bg-yellow-100 text-yellow-800 text-sm rounded">
+              Debug: Current route: {location.pathname}
+            </div>
+            
+            {/* This is crucial - Outlet renders the nested route */}
+            <Outlet />
+          </main>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default Layout;
