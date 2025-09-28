@@ -1,8 +1,22 @@
 import { useEffect, useState } from "react";
 import { assets, dummyMyBookingsData } from "../assets/assets.js";
 import Title from "../components/Title.jsx";
+import { useEffect, useState } from "react";
+import { assets, dummyMyBookingsData } from "../assets/assets.js";
+import Title from "../components/Title.jsx";
 
 const MyBookings = () => {
+  const [bookings, setBookings] = useState([]);
+  const currency = import.meta.env.VITE_CURRENCY;
+
+  const fetchMyBookings = async () => {
+    setBookings(dummyMyBookingsData);
+  };
+
+  useEffect(() => {
+    fetchMyBookings();
+  }, []);
+
   const [bookings, setBookings] = useState([]);
   const currency = import.meta.env.VITE_CURRENCY;
 
